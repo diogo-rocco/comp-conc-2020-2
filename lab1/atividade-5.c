@@ -30,8 +30,8 @@ int main(void){
 
     //inicializando o vetor de trabalho e o vetor de controle
     for(int i=0; i<ARRAY_SIZE; i++){
-        work_array[i] = i;
-        control_array[i] = i+1;
+        work_array[i] = 0;
+        control_array[i] = 1;
     }
 
     //cirando as threads
