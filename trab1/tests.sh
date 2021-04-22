@@ -1,0 +1,15 @@
+#!/bin/bash
+
+MATRIX_SIZE=20000
+NUMBER_OF_THREADS=4
+
+gcc norma-seq.c -o norma-seq -Wall -lpthread -lm
+gcc norma-conc-1.c -o norma-conc-1 -Wall -lpthread -lm
+gcc norma-conc-2.c -o norma-conc-2 -Wall -lpthread -lm
+
+for i in 1 2 3 4 5
+do
+    ./norma-seq $MATRIX_SIZE
+    ./norma-conc-1 $MATRIX_SIZE $NUMBER_OF_THREADS
+    ./norma-conc-2 $MATRIX_SIZE $NUMBER_OF_THREADS
+done
