@@ -19,14 +19,16 @@ void initialize_matrix(double *input, int matrix_dimension, int init_value){
     {
         for (int j = 0; j < matrix_dimension; j++)
         {
-            input[i*matrix_dimension + j] = 1;
+            input[i*matrix_dimension + j] = init_value;
         }
         
     }
 }
 
 int check_correctness(double *matrix, int matrix_dimension, int init_value){
-    double reference_value = init_value/sqrt(matrix_dimension);
+    double reference_value;
+    if(init_value>0) reference_value = init_value/sqrt(matrix_dimension * init_value * init_value);
+    else reference_value = 0;
     
     for (int i = 0; i < matrix_dimension; i++){
         for (int j = 0; j < matrix_dimension; j++)
@@ -37,12 +39,12 @@ int check_correctness(double *matrix, int matrix_dimension, int init_value){
     
 }
 
-void log_execution_time(char* file_name, double execution_time, int matrix_size, int n_threads){
+void log_execution_time(char* file_name, double execution_time, int matrix_dimension, int n_threads){
     FILE *file;
     file = fopen(file_name, "a+");
     if(file){
         if(n_threads>0)
-            fprintf(file, "matriz size = %d | number of threads | execution time %lf s\n", matrix_dimension, n_threads, execution_time);
+            fprintf(file, "matriz size = %d | number of threads %d | execution time %lf s\n", matrix_dimension, n_threads, execution_time);
         else fprintf(file, "matriz size = %d | execution time %lf s\n", matrix_dimension, execution_time);
         }
 }
