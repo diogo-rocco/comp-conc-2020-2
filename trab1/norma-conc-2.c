@@ -79,7 +79,7 @@ int main(int argc, char* argv[]){
         return 1;
     }
     printf("processing time = %lf\n", end_time-start_time);
-    log_execution_time("norma-conc-2-log", end_time-start_time);
+    log_execution_time("norma-conc-2-log", end_time-start_time, matrix_dimension, n_threads);
     
     free(normalized_matrix);
     free(input_matrix);

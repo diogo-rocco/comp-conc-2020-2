@@ -37,9 +37,12 @@ int check_correctness(double *matrix, int matrix_dimension, int init_value){
     
 }
 
-void log_execution_time(char* file_name, double execution_time){
+void log_execution_time(char* file_name, double execution_time, int matrix_size, int n_threads){
     FILE *file;
     file = fopen(file_name, "a+");
-    if(file)
-        fprintf(file, "execution took %lf seconds\n", execution_time);
+    if(file){
+        if(n_threads>0)
+            fprintf(file, "matriz size = %d | number of threads | execution time %lf s\n", matrix_dimension, n_threads, execution_time);
+        else fprintf(file, "matriz size = %d | execution time %lf s\n", matrix_dimension, execution_time);
+        }
 }
