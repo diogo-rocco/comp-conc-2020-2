@@ -8,6 +8,8 @@ gcc norma-conc-2.c -o norma-conc-2 -Wall -lpthread -lm
 #-----------------------------------------------------------------#
 
 MATRIX_SIZE=1000
+
+NUMBER_OF_THREADS=2
 for i in 1 2 3 4 5
 do
     ./norma-seq $MATRIX_SIZE $i
