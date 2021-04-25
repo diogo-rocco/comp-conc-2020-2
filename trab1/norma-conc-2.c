@@ -76,8 +76,6 @@ int main(int argc, char* argv[]){
 
     if(!check_correctness(normalized_matrix, matrix_dimension, init_value)){
         printf("Wrong!!\n");
-        puts("");
-        print_matrix(normalized_matrix, matrix_dimension);
         return 1;
     }
     printf("processing time = %lf\n", end_time-start_time);
