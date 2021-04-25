@@ -25,8 +25,8 @@ void initialize_matrix(double *input, int matrix_dimension){
     }
 }
 
-int check_correctness(double *matrix, int matrix_dimension){
-    double reference_value = 1/sqrt(matrix_dimension);
+int check_correctness(double *matrix, int matrix_dimension, int init_value){
+    double reference_value = init_value/sqrt(matrix_dimension);
     
     for (int i = 0; i < matrix_dimension; i++){
         for (int j = 0; j < matrix_dimension; j++)

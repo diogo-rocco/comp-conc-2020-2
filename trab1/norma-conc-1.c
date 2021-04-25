@@ -39,10 +39,12 @@ int main(int argc, char* argv[]){
     double start_time, end_time;
     pthread_t *thread_id;
     int *local_ids;
+    int init_value;
 
-    if(argc<3) {printf("Digite %s <tamanho da matriz> <numero de threads>\n", argv[0]); return 1;}
+    if(argc<4) {printf("Digite %s <tamanho da matriz> <numero de threads> <valor de inicializacao>\n", argv[0]); return 1;}
     matrix_dimension = atoi(argv[1]);
     n_threads = atoi(argv[2]);
+    init_value = atoi(argv[3]);
     
     //alocando memoria para as matrizes
     GET_TIME(start_time);
@@ -78,7 +80,7 @@ int main(int argc, char* argv[]){
     
     GET_TIME(end_time);
 
-    if(!check_correctness(normalized_matrix, matrix_dimension)){
+    if(!check_correctness(normalized_matrix, matrix_dimension, init_value)){
         printf("Wrong!!\n");
         puts("");
         print_matrix(normalized_matrix, matrix_dimension);

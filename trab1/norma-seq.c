@@ -28,9 +28,11 @@ void normalize_arrays(double* input_matrix, double* work_matrix){
 
 int main(int argc, char* argv[]){
     double start_time, end_time;
+    int init_value;
 
-    if(argc<2) {printf("Digite %s <tamanho da matriz>\n", argv[0]); return 1;}
+    if(argc<3) {printf("Digite %s <tamanho da matriz> <valor de inicializacao>\n", argv[0]); return 1;}
     matrix_dimension = atoi(argv[1]);
+    init_value = atoi(argv[2]);
     
     GET_TIME(start_time);
     input_matrix = malloc(sizeof(double)*matrix_dimension*matrix_dimension);
@@ -53,7 +55,7 @@ int main(int argc, char* argv[]){
     //print_matrix(normalized_matrix, matrix_dimension);
     GET_TIME(end_time);
 
-    if(!check_correctness(normalized_matrix, matrix_dimension)){
+    if(!check_correctness(normalized_matrix, matrix_dimension, init_value)){
         printf("Wrong!!\n");
         return 1;
     }
