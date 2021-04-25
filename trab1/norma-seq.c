@@ -39,7 +39,7 @@ int main(int argc, char* argv[]){
     if (input_matrix == NULL){printf("ERROR--malloc input\n"); return 2;}
     normalized_matrix = malloc(sizeof(double)*matrix_dimension*matrix_dimension);
     if (normalized_matrix == NULL){printf("ERROR--malloc normalized\n"); return 2;}
-    initialize_matrix(input_matrix, matrix_dimension);
+    initialize_matrix(input_matrix, matrix_dimension, init_value);
     GET_TIME(end_time);
     printf("allocating time = %lf\n", end_time-start_time);
     

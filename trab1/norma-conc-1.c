@@ -53,7 +53,7 @@ int main(int argc, char* argv[]){
     normalized_matrix = malloc(sizeof(double)*matrix_dimension*matrix_dimension);
     if (normalized_matrix == NULL){printf("ERROR--malloc normalized\n"); return 2;}
     GET_TIME(end_time);
-    initialize_matrix(input_matrix, matrix_dimension);
+    initialize_matrix(input_matrix, matrix_dimension, init_value);
     printf("allocating time = %lf\n", end_time-start_time);
     
     //normalizacao concorrente

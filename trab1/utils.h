@@ -13,7 +13,7 @@ void print_matrix(double *matrix, int matrix_dimension){
     
 }
 
-void initialize_matrix(double *input, int matrix_dimension){
+void initialize_matrix(double *input, int matrix_dimension, int init_value){
 
     for (int i = 0; i < matrix_dimension; i++)
     {
