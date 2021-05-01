@@ -17,7 +17,7 @@ pthread_cond_t x_cond;
 
 void initialize(int *array){
     for(int i=0; i<array_size; i++){
-        work_array[i] = rand()%10;
+        work_array[i] = rand()%100;
         concurrent_array[i] = work_array[i];
         sequential_array[i] = work_array[i];
     }
@@ -58,6 +58,7 @@ void sequential_sum(int* work_array){
 
 
 int main(int argc, char* argv[]){
+    if(argc<2){printf("Digite <nome do programa> <tamanho do array>\n"); return 1;}
     array_size = atoi(argv[1]);
     n_threads = array_size;
     int *local_id;
