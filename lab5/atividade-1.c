@@ -58,8 +58,8 @@ void sequential_sum(int* work_array){
 
 
 int main(int argc, char* argv[]){
-    if(argc<2){printf("Digite <nome do programa> <tamanho do array>\n"); return 1;}
-    array_size = atoi(argv[1]);
+    if(argc<2){printf("Digite <nome do programa> <log2 do tamanho do vetor>\n"); return 1;}
+    array_size = pow(2,atoi(argv[1]));
     n_threads = array_size;
     int *local_id;
     pthread_t *thread_id;
