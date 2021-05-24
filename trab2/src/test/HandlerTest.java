@@ -28,6 +28,7 @@ public class HandlerTest {
         buffer[3] = new Measurement(2,1,27);
 
         Assertions.assertEquals(buffer[3].getValue(), handler.readMeasurement().getValue());
+        Assertions.assertNull(handler.readMeasurement());
     }
 
     /**
