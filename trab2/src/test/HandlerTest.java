@@ -1,8 +1,17 @@
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import resources.Handler;
+import resources.Measurement;
+import resources.ThreadController;
 
+/**
+ * teste dos métodos da classe Handler
+ */
 public class HandlerTest {
 
+    /**
+     * teste do método readMeasurement
+     */
     @Test
     public void readMeasurementTest(){
         Measurement[] buffer = new Measurement[5];
@@ -21,6 +30,9 @@ public class HandlerTest {
         Assertions.assertEquals(buffer[3].getValue(), handler.readMeasurement().getValue());
     }
 
+    /**
+     *teste do método checkStatus
+     */
     @Test
     public void checkStatusTest(){
         Measurement[] buffer = new Measurement[15];
@@ -46,23 +58,33 @@ public class HandlerTest {
 
         Assertions.assertEquals(1, handler.checkStatus());
 
-        for (int i=0; i<15; i++) {
-            if (i<5) buffer[i] = new Measurement(measurement_count, 1, 40);
-            else buffer[i] = new Measurement(measurement_count, 1, 27);
+        for (int i=0; i<5; i++) {
+            buffer[i] = new Measurement(measurement_count, 1, 40);
             measurement_count++;
             handler.readMeasurement();
         }
 
         Assertions.assertEquals(2, handler.checkStatus());
+
+        for (int i=0; i<12; i++) {
+            if (i>=7 && i<=11) buffer[i] = new Measurement(measurement_count, 1, 40);
+            else buffer[i] = new Measurement(measurement_count, 1, 27);
+            measurement_count++;
+            handler.readMeasurement();
+        }
+        Assertions.assertEquals(2, handler.checkStatus());
     }
 
+    /**
+     * teste do método showAverageTemperature
+     */
     @Test
-    public void showTemperatureTest(){
+    public void showAverageTemperatureTest(){
         Measurement[] buffer = new Measurement[15];
         Handler handler = new Handler(1, buffer, new ThreadController());
         double avg_value = 0;
 
-        Assertions.assertEquals(0, handler.showTemperature());
+        Assertions.assertEquals(0, handler.showAverageTemperature());
 
         for (int i=0; i<15; i++) {
             double measurement_value = 27+(i+1);
@@ -72,36 +94,7 @@ public class HandlerTest {
         }
 
         avg_value = avg_value/15;
-        Assertions.assertEquals(avg_value, handler.showTemperature());
-    }
-
-    @Test
-    public void runTest(){
-        Measurement[] buffer = new Measurement[30];
-        int n_measurements1 = 1;
-        int n_measurements2 = 1;
-        ThreadController controller = new ThreadController();
-        double handler1_sum = 0;
-        double handler2_sum = 0;
-
-        Handler handler1 = new Handler(1, buffer, controller);
-        Handler handler2 = new Handler(2, buffer, controller);
-
-        for (int i=0; i<30; i++){
-            if (i%2==0){
-                buffer[i] = new Measurement(n_measurements2, 2, 30+i);
-                handler2_sum += 30+i;
-                n_measurements2++;
-            }
-            else {
-                buffer[i] = new Measurement(n_measurements1, 1, 40+i);
-                handler1_sum += 40+i;
-                n_measurements1++;
-            }
-        }
-
-        Assertions.assertEquals(handler1_sum/15, handler1.showTemperature());
-        Assertions.assertEquals(handler2_sum/15, handler2.showTemperature());
+        Assertions.assertEquals(avg_value, handler.showAverageTemperature());
     }
 
 }
