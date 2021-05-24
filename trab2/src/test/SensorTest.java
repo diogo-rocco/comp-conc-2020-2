@@ -1,10 +1,19 @@
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import resources.Measurement;
+import resources.Sensor;
+import resources.ThreadController;
 
 import java.util.Random;
 
+/**
+ * testes da classe Sensor
+ */
 public class SensorTest {
 
+    /**
+     * testa o método getMeasurement
+     */
     @Test
     public void getMeasurementTest(){
         int sensor_id = new Random().nextInt();
@@ -18,6 +27,9 @@ public class SensorTest {
         }
     }
 
+    /**
+     * testa o método storeMeasurement
+     */
     @Test
     public void storeMeasurementTest(){
         Measurement[] buffer = new Measurement[5];
@@ -28,23 +40,6 @@ public class SensorTest {
 
         for (int i=0; i<5; i++)
             Assertions.assertTrue(buffer[i].getValue() >= 25 && buffer[i].getValue() <= 40);
-    }
-
-    @Test
-    public void runTest(){
-        int buffer_size = 20; //buffer size = (number of thread)*(max number of steps in measurements)
-        Measurement[] buffer = new Measurement[20];
-        ThreadController controller = new ThreadController();
-
-        Sensor sensor_1 = new Sensor(1, buffer, controller);
-        Sensor sensor_2 = new Sensor(2, buffer, controller);
-
-        sensor_1.run();
-        sensor_2.run();
-
-        for (int i=0; i<buffer_size; i++)
-            Assertions.assertTrue(buffer[i].getValue() >= 25 && buffer[i].getValue() <= 40);
-
     }
 
 }
