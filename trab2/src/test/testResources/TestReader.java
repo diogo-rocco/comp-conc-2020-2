@@ -21,9 +21,11 @@ public class TestReader implements Runnable{
     }
 
     public void simultaneousReadingTestMethod(){
+        controller.enterReading();
         for (int i=0; i<this.buffer.length; i++){
             output[i] = buffer[i];
         }
+        controller.exitReading();
     }
 
     public void noReadingWhileWritingTestFailMethod(){
@@ -56,9 +58,6 @@ public class TestReader implements Runnable{
     }
 
     public void run() {
-        if(this.testType.equals("simultaneous-reading"))
-            simultaneousReadingTestMethod();
-
         switch (testType){
             case "simultaneous-reading":
                 simultaneousReadingTestMethod();
