@@ -1,5 +1,4 @@
 package testResources;
-import resources.Sensor;
 import resources.ThreadController;
 
 import static java.lang.Thread.sleep;
@@ -25,6 +24,9 @@ public class TestWriter implements Runnable{
         TestWriter.counter=0;
     }
 
+    /**
+     * escreve o valor do contador na posição correspondente do buffer
+     */
     public synchronized void write(){
         if (TestWriter.counter<this.buffer.length) {
             this.buffer[TestWriter.counter] = this.id;
@@ -33,6 +35,9 @@ public class TestWriter implements Runnable{
         }
     }
 
+    /**
+     * itera no buffer chamando a função de escrita
+     */
     public void oneWriterAtATimeTestMethod(){
         while (TestWriter.counter<this.buffer.length) {
             controller.enterWriting();
@@ -41,6 +46,9 @@ public class TestWriter implements Runnable{
         }
     }
 
+    /**
+     * soma 1000000 à posição 0 do buffer
+     */
     public void noReadingWhileWritingTestMethod(){
         controller.enterWriting();
         for (int i=0; i<=1000000; i++){
@@ -49,6 +57,9 @@ public class TestWriter implements Runnable{
         controller.exitWriting();
     }
 
+    /**
+     * aguarda para entrar na fila de execução e leva as 5 primeiras posições do buffer para as posições de 100 à 104
+     */
     public void writerMustWaitOnlyRunningReadersTestMethod(){
         try {
             sleep(1000);
@@ -60,6 +71,9 @@ public class TestWriter implements Runnable{
         controller.exitWriting();
     }
 
+    /**
+     * chama as funções de teste baseado no código fornecido na instanciação da classe
+     */
     public void run() {
         switch (testType){
             case "one-writer-at-a-time":

@@ -20,6 +20,9 @@ public class TestReader implements Runnable{
         this.testType = testType;
     }
 
+    /**
+     * copia o buffer para o output
+     */
     public void simultaneousReadingTestMethod(){
         controller.enterReading();
         for (int i=0; i<this.buffer.length; i++){
@@ -28,16 +31,25 @@ public class TestReader implements Runnable{
         controller.exitReading();
     }
 
+    /**
+     * guarda a primeira posição do buffer na primeira posição do output (sem entrar e sair da fila de leitura)
+     */
     public void noReadingWhileWritingTestFailMethod(){
         output[0] = buffer[0];
     }
 
+    /**
+     * guarda a primeira posição do buffer na primeira posição do output (entrando e saindo da fila de leitura)
+     */
     public void noReadingWhileWritingTestPassMethod(){
         controller.enterReading();
         output[0] = buffer[0];
         controller.exitReading();
     }
 
+    /**
+     * entra na fila, espera 5 segundos, e guarda seu id em uma das 5 primeiras posições do buffer
+     */
     public void writerMustWaitOnlyRunningReadersFirstTestMethod(){
         controller.enterReading();
         try {
@@ -47,6 +59,9 @@ public class TestReader implements Runnable{
         controller.exitReading();
     }
 
+    /**
+     * guarda seu id em uma das 5 primeiras posições do buffer
+     */
     public void writerMustWaitOnlyRunningReadersSecondTestMethod(){
         try {
             sleep(3000);
@@ -57,6 +72,9 @@ public class TestReader implements Runnable{
         controller.exitReading();
     }
 
+    /**
+     * chama as funções de teste baseado no código fornecido na instanciação da classe
+     */
     public void run() {
         switch (testType){
             case "simultaneous-reading":
