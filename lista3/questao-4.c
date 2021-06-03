@@ -4,14 +4,14 @@
 #include<stdlib.h>
 #include <unistd.h>
 
-sem_t slotFull, slotEmpty;
-sem_t mutexProduce, mutexConsume;
-sem_t *freeProduce;
-sem_t *freeConsume;
+
+sem_t mutexProduce, mutexConsume; //variaveis de exclusão mútua
+sem_t *freeProduce; //verifica se a posição está habilidada para receber uma thread produtora
+sem_t *freeConsume; //verifica se a posição está habilitada para receber uma thread consumidora
 
 int *buffer;
 int in = 0;
-int *consumer_out;
+int *consumer_out; //vetor que armazena a posição de consumo de cada thread consumidora
 int *consumers_left_to_consume; //vetor que vai armazenar quantos consumidores ainda precisam consumir daquela posicao do buffer
 int P;
 int C;
@@ -23,13 +23,16 @@ void *insert(void *arg){
     while(1){
         
         sem_wait(&mutexProduce);
+        //verifica se a posição no buffer está livre para produção
         sem_wait(&freeProduce[in]);
 
+        //inserção de um elemento do buffer
         printf("\033[0;32m");
         printf("A thread %d vai inserir o valor %d, na posição %d do buffer\n", id, value, in);
         buffer[in] = value;
         in = (in + 1)%N;
 
+        //informa para a aplicação que podem ser feitos C consumos nela
         sem_wait(&mutexConsume);
         if(in==0) consumers_left_to_consume[N-1] = C;
         else consumers_left_to_consume[in-1] = C;
@@ -38,6 +41,7 @@ void *insert(void *arg){
         value ++;
         sleep(1);
         
+        //libera a posição no buffer para consumo
         if(in==0) sem_post(&freeConsume[N-1]);
         else sem_post(&freeConsume[in-1]);
         sem_post(&mutexProduce);
@@ -49,10 +53,11 @@ void *consume(void *arg){
     while(1){
         int out = consumer_out[consumer_id];
 
+        //verifica se a posição atual pode ser consumida
         sem_wait(&freeConsume[out]);
         
+        //consome o elemento
         int value = buffer[out];
-        
         sem_wait(&mutexConsume);
         printf("\033[0;31m");
         printf("A thread %d está tratando o valor %d, obtido na posição %d do buffer\n", consumer_id, value, out);
@@ -60,6 +65,7 @@ void *consume(void *arg){
         consumer_out[consumer_id] = (consumer_out[consumer_id]+1)%N;
         sleep(1);
 
+        //verifica se é o ultimo elemento à ser cosumido, caso seja, habilita a posição para receber um produtor, caso contrário, reabilita para receber um consumidor
         if(consumers_left_to_consume[out]>0) sem_post(&freeConsume[out]);
         else sem_post(&freeProduce[out]);
         sem_post(&mutexConsume);
@@ -84,10 +90,7 @@ int main(int argc, char *argv[]){
     //Alocacao das variaveis
     sem_init(&mutexConsume, 0, 1);
     sem_init(&mutexProduce, 0, 1);
-    sem_init(&slotFull, 0, 0);
-    sem_init(&slotEmpty, 0, N);
 
-    
     buffer = malloc(sizeof(int)*N);
     if(buffer==NULL){
         fprintf(stderr, "ERROR--malloc buffer");
